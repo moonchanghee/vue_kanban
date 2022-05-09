@@ -1,22 +1,28 @@
 <template>
   <div class = "todoItem"  draggable="true" >
     <div class = "item_content">
-      <p>제목 :  </p>
-      <p>생성일 :</p>
-      <p>내용 :</p>
+      <p>제목 : {{item.todoTitle}} </p>
+      <p>생성일 :{{item.todoDate}} </p>
+      <p>내용 : {{item.todoContents}}</p>
     </div>
     <div class="item_button">
-      <button class = "delbtn">삭제</button>
+      <button class = "delbtn" @click = "$emit('delId' , item.id)" >삭제</button>
       <button class = "upbtn">수정</button>
-      <p class = "priority"> ${e.item_priority}</p>
+      <p class = "priority"> {{item.todoPriority}}</p>
     </div>
   </div>
 </template>
 
 <script>
+export default {
+  props: {
+    item : Object,
+    // delId : Function
+  },
+  methods : {
 
-
-
+  }
+}
 
 </script>
 

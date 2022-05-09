@@ -1,34 +1,56 @@
 <template>
   <div class="kanban">
-      <div class="content" >
-        <div class="ToDoMain">
-          <div class = "item item-todo">ToDo</div>
-          <div class="ToDo">
-          </div>
-        </div>
-        <div class="In_progressMain">
-          <div class = "item item-inprogress">In Progress</div>
-          <div class="In_progress">
-          </div>
-        </div>
-        <div class="DoneMain">
-          <div class = "item item-done">Done</div>
-          <div class="Done">
+    <div class="content" >
+      <div class="ToDoMain">
+        <div class = "item item-todo">ToDo</div>
+        <div class="ToDo" v-for = "item in todo"  >
+          <div v-if = "item.todoState === 'ToDo'">
+            <TodoItem
+                :item = "item"
+            />
           </div>
         </div>
       </div>
+      <div class="In_progressMain">
+        <div class = "item item-inprogress">In Progress</div>
+        <div class="In_progress" v-for = "item in todo"  >
+          <div v-if = "item.todoState === 'In_progress'">
+            <TodoItem
+                :item = "item"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="DoneMain">
+        <div class = "item item-done">Done</div>
+        <div class="Done" v-for = "item in todo"  >
+          <div v-if = "item.todoState === 'Done'">
+            <TodoItem
+                :item = "item"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-  import TooItem from '../components/TodoItem.vue'
+import TodoItem from '../components/TodoItem.vue'
 
-  export default {
-    name : "kanban",
-    components : {
-      TooItem
-    }
+export default {
+  name : "kanban",
+  components : {
+    TodoItem
+  },
+  props:{
+    todo : Array,
+    // delId : Function
+  },
+  computed : {
+
   }
+}
 
 </script>
 
