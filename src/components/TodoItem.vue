@@ -6,21 +6,29 @@
       <p>내용 : {{item.todoContents}}</p>
     </div>
     <div class="item_button">
-      <button class = "delbtn" @click = "$emit('delId' , item.id)" >삭제</button>
-      <button class = "upbtn">수정</button>
+      <button class = "delbtn" @click = "$emit('delete', item.id)" >삭제</button>
+      <button class = "upbtn" @click = "$emit('update', item.id)" >수정</button>
       <p class = "priority"> {{item.todoPriority}}</p>
     </div>
   </div>
 </template>
 
 <script>
+// import {eventBus} from "../main";
+
+
 export default {
   props: {
     item : Object,
     // delId : Function
+    test : Function
   },
   methods : {
-
+    // emitDeleteId : function(e){
+    //   // eventBus.$emit("test" , "ddddddd")
+    //
+    //   console.log("이벤트 송신")
+    // }
   }
 }
 

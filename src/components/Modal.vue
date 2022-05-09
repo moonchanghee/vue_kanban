@@ -1,8 +1,9 @@
 <template>
 
   <div class="modal hidden"  v-if = "show">
+    <div v-if = "!updateBool">
     <div>
-      <label for="title">제목: </label>
+      <label for="title" >제목:</label>
       <input v-bind:value="todoTitle" v-on:input="updateTitle">
     </div>
     <div>
@@ -10,21 +11,27 @@
       <input v-bind:value="todoDate" v-on:input="updatDate">
     </div>
     <div class="modal-selectbox">
-      우선순위
-      <select v-model="prioritySelected" v-on:input="updatePriority">
+      우선순위<select v-model="prioritySelected" v-on:input="updatePriority">
         <option v-for="option in stateOptions" v-bind:value="option.value" >
           {{ option.text }}
         </option>
       </select>
-      상태
-      <select v-model="stateSelected" v-on:input="updatedState">
+      상태<select v-model="stateSelected" v-on:input="updatedState">
         <option v-for="option in priorityOptions" v-bind:value="option.value" >
           {{ option.text }}
         </option>
       </select>
-    </div>
     <p><textarea cols="45" rows="10" id = "modal-conents" v-bind:value="todoContents" v-on:input="updateContents"></textarea></p>
     <div class = "closeBtn hidden" @click="$emit('setData', {state : false,id : this.uuid() ,todoTitle,todoDate,todoState,todoPriority,todoContents,todoPriorityNum}) ">작성완료</div>
+  </div>
+  </div>
+
+  <div v-else>
+    <div>
+      <label for="title" >제목:</label>
+      <input v-bind:value="selectItem.todoTitle" v-on:input="updateTitle">
+    </div>
+  </div>
   </div>
 </template>
 
@@ -33,6 +40,8 @@ export default {
   props: {
     show: Boolean,
     setData : Function,
+    updateBool : Boolean,
+    selectItem : Array
   },
   data() {
     return{

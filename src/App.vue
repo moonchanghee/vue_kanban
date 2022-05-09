@@ -14,12 +14,17 @@
       </div>
     </div>
     <Modal
-        :show="showModal"
+        :show= "showModal"
+        :updateBool = "updateBool"
+        :selectItem = "selectItem"
         @setData = "setTodoItem"
+
     />
     <Kanban
         :todo="todo"
         v-on:delId="this.deleteId"
+        @deleteId = "deleteItem"
+        @updateId = "updateItem"
     />
   </div>
 </template>
@@ -27,25 +32,39 @@
 <script>
 import Modal from './components/Modal.vue'
 import Kanban from "./layouts/Kanban.vue";
+// import {eventBus} from "./main";
+import eventBus from "./eventBus";
 
 export default {
   name: 'App',
   components: {
     Modal,
     Kanban
-  },  data(){
+  },
+  data(){
     return {
       showModal: false,
-      todo : []
+      todo : [],
+      selectItem : [],
+      updateBool : false
     }
   },
   methods: {
     setTodoItem(e){
       this.showModal = e.state;
       this.todo.push(e)
+      //스토리지 작업 추가
+
     },
-    deleteId(e){
-      console.log(e)
+    deleteItem(i){
+      let itemIndex = this.todo.findIndex((e) => e.id === i)
+      this.todo.splice(itemIndex , 1)
+    },
+    updateItem(i){
+      console.log("수정 수정 수정")
+      this.selectItem = this.todo.find((e) => e.id === i)
+      this.showModal = true;
+      console.log("this.selectItem", this.selectItem, this.showModal)
     }
   }
 }

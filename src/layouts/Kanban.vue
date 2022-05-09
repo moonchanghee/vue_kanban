@@ -7,6 +7,8 @@
           <div v-if = "item.todoState === 'ToDo'">
             <TodoItem
                 :item = "item"
+                @delete = "deleteId"
+                @update = "updateId"
             />
           </div>
         </div>
@@ -17,6 +19,8 @@
           <div v-if = "item.todoState === 'In_progress'">
             <TodoItem
                 :item = "item"
+                @delete = deleteId
+                @update = "updateId"
             />
           </div>
         </div>
@@ -27,6 +31,8 @@
           <div v-if = "item.todoState === 'Done'">
             <TodoItem
                 :item = "item"
+                @delete = deleteId
+                @update = "updateId"
             />
           </div>
         </div>
@@ -45,10 +51,21 @@ export default {
   },
   props:{
     todo : Array,
+    deleteId : Function,
+    updateId : Function
     // delId : Function
   },
   computed : {
 
+  },
+  methods : {
+    deleteId(e){
+      console.log("삭제")
+      this.$emit('deleteId' , e)
+    },
+    updateId(e){
+      this.$emit('updateId' , e)
+    }
   }
 }
 
