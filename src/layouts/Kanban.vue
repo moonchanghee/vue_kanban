@@ -9,8 +9,13 @@
                 :item = "item"
                 @delete = "deleteId"
                 @update = "updateId"
+                @dragstart = "startDrag($event , item)"
             />
-
+            <div class="dropzone"
+                 @drop="onDrop($event, 1)"
+                 @dragover = "ondragover($event)"
+                 @dragleave = "ondragleave($event)"
+            />
           </div>
         </div>
       </div>
@@ -22,6 +27,12 @@
                 :item = "item"
                 @delete = deleteId
                 @update = "updateId"
+                @dragstart = "startDrag($event , item)"
+            />
+            <div class="dropzone"
+                 @drop="onDrop($event, 1)"
+                 @dragover.prevent
+                 @dragenter.prevent
             />
           </div>
         </div>
@@ -34,6 +45,12 @@
                 :item = "item"
                 @delete = deleteId
                 @update = "updateId"
+                @dragstart = "startDrag($event , item)"
+            />
+            <div class="dropzone"
+                 @drop="onDrop($event, 1)"
+                 @dragover.prevent
+                 @dragenter.prevent
             />
           </div>
         </div>
@@ -48,23 +65,48 @@ import TodoItem from '../components/TodoItem.vue'
 export default {
   name : "kanban",
   components : {
-    TodoItem
+    TodoItem,
+  },
+  data(){
+    return {
+      startId : "",
+    }
   },
   props:{
     todo : Array,
-    // delId : Function
   },
   computed : {
 
   },
   methods : {
     deleteId(e){
-      console.log("삭제")
       this.$emit('deleteId' , e)
     },
     updateId(e){
-      console.log("수정")
       this.$emit('updateId' , e)
+    },
+    startDrag (e, item) {
+      console.log("start")
+      this.startId = item.id
+      // e.dataTransfer.dropEffect = 'move'
+      // e.dataTransfer.effectAllowed = 'move'
+      // e.dataTransfer.setData('itemID', item.id)
+    },
+    onDrop (e, list) {
+      console.log("ondrop" , e, list)
+      e.target.classList.remove("dropzone_active")
+
+      // const itemID = e.dataTransfer.getData('itemID')
+      // const item = this.items.find(item => item.id == itemID)
+      // item.list = list
+    },
+    ondragover(e){
+      console.log("dragover")
+      e.target.classList.add("dropzone_active")
+    },
+    ondragleave(e){
+      console.log("dragleave")
+      e.target.classList.remove("dropzone_active")
     }
   }
 }
@@ -120,5 +162,15 @@ export default {
 
 a {
   color: #42b983;
+}
+
+.dropzone{
+  height: 7px;
+  transition: background 0.15s, height 0.15s;
+}
+
+.dropzone_active {
+  height: 30px;
+  background: rgba(0, 0, 0, 0.25);
 }
 </style>
