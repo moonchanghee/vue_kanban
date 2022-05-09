@@ -22,7 +22,7 @@
         </option>
       </select>
     <p><textarea cols="45" rows="10" id = "modal-conents" v-bind:value="todoContents" v-on:input="updateContents"></textarea></p>
-    <div class = "closeBtn hidden" @click="$emit('setData', {state : false,id : this.uuid() ,todoTitle,todoDate,todoState,todoPriority,todoContents,todoPriorityNum}) ">작성완료</div>
+    <div class = "closeBtn" @click="$emit('setData', {state : false,id : this.uuid() ,todoTitle,todoDate,todoState,todoPriority,todoContents,todoPriorityNum}) ">작성완료</div>
   </div>
   </div>
 
@@ -30,7 +30,25 @@
     <div>
       <label for="title" >제목:</label>
       <input v-bind:value="selectItem.todoTitle" v-on:input="updateTitle">
+      <label for="date" >완료일: </label>
+      <input v-bind:value="selectItem.todoDate" v-on:input="updatDate">
     </div>
+    <div class="modal-selectbox">
+      우선순위<select v-model="prioritySelected" v-on:input="updatePriority">
+      <option v-for="option in stateOptions" v-bind:value="option.value" >
+        {{ option.text }}
+      </option>
+    </select>
+      상태<select v-model="stateSelected" v-on:input="updatedState">
+      <option v-for="option in priorityOptions" v-bind:value="option.value" >
+        {{ option.text }}
+      </option>
+    </select>
+      <p><textarea cols="45" rows="10" id = "modal-conents" v-bind:value="selectItem.todoContents" v-on:input="updateContents"></textarea></p>
+
+      <div class = "upSuccessBtn" @click="$emit('updateItem', {state : false,id : selectItem.id ,todoTitle,todoDate,todoState,todoPriority,todoContents,todoPriorityNum}) ">수정완료</div>
+    </div>
+
   </div>
   </div>
 </template>
@@ -39,7 +57,6 @@
 export default {
   props: {
     show: Boolean,
-    setData : Function,
     updateBool : Boolean,
     selectItem : Array
   },
@@ -107,16 +124,6 @@ export default {
   height: 350px;
   border: 2px solid black;
 
-}
-.modal-title {
-  font-size: 23px;
-  font-weight: bold;
-  margin-bottom: 15px;
-}
-.modal-date{
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 15px;
 }
 
 </style>

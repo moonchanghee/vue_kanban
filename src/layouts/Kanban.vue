@@ -10,6 +10,7 @@
                 @delete = "deleteId"
                 @update = "updateId"
             />
+
           </div>
         </div>
       </div>
@@ -51,8 +52,6 @@ export default {
   },
   props:{
     todo : Array,
-    deleteId : Function,
-    updateId : Function
     // delId : Function
   },
   computed : {
@@ -64,6 +63,7 @@ export default {
       this.$emit('deleteId' , e)
     },
     updateId(e){
+      console.log("수정")
       this.$emit('updateId' , e)
     }
   }

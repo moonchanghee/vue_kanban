@@ -18,13 +18,13 @@
         :updateBool = "updateBool"
         :selectItem = "selectItem"
         @setData = "setTodoItem"
+        @updateItem = "updateItem"
 
     />
     <Kanban
         :todo="todo"
-        v-on:delId="this.deleteId"
         @deleteId = "deleteItem"
-        @updateId = "updateItem"
+        @updateId = "updateOpen"
     />
   </div>
 </template>
@@ -60,11 +60,15 @@ export default {
       let itemIndex = this.todo.findIndex((e) => e.id === i)
       this.todo.splice(itemIndex , 1)
     },
-    updateItem(i){
-      console.log("수정 수정 수정")
+    updateOpen(i){
       this.selectItem = this.todo.find((e) => e.id === i)
       this.showModal = true;
-      console.log("this.selectItem", this.selectItem, this.showModal)
+      this.updateBool = true
+    },
+    updateItem(data){
+      let updateIndex = this.todo.findIndex((e) => e.id === data.id)
+      this.todo.splice(updateIndex , 1, data)
+      this.showModal = data.state;
     }
   }
 }
