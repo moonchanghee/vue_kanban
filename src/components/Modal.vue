@@ -17,7 +17,7 @@
         </option>
       </select>
       상태<select v-model="stateSelected" v-on:input="updatedState">
-        <option v-for="option in priorityOptions" v-bind:value="option.value" >
+        <option v-for="option in priorityOptions" v-bind:value="option.value">
           {{ option.text }}
         </option>
       </select>
@@ -45,10 +45,8 @@
       </option>
     </select>
       <p><textarea cols="45" rows="10" id = "modal-conents" v-bind:value="selectItem.todoContents" v-on:input="updateContents"></textarea></p>
-
-      <div class = "upSuccessBtn" @click="$emit('updateItem', {state : false,id : selectItem.id ,todoTitle,todoDate,todoState,todoPriority,todoContents,todoPriorityNum}) ">수정완료</div>
+      <div class = "upSuccessBtn" @click="$emit('updateItem', {state : false,id : selectItem.id , updateBool : false,todoTitle,todoDate,todoState,todoPriority,todoContents,todoPriorityNum}) ">수정완료</div>
     </div>
-
   </div>
   </div>
 </template>
