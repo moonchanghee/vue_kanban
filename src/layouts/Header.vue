@@ -2,25 +2,26 @@
   <div class="header">
       <div class="head-container">
         <div class="head-title">To Do 칸반보드</div>
-        <div class="head-button"><div class = "headBtn" @click = "isModalViewed = true" >추가</div></div>
+        <div class="head-button"><div class = "headBtn" @click =  "$emit('openModal', true)" >추가</div></div>
         <div class="head-selectbox">우선순위
-          <select class = "select">
+          <select class = "select"  v-model = "selectOption" @change="$emit('sortTodoList', selectOption)">
             <option selected>선택</option>
-            <option class = "sel_high">우선순위 높은순</option>
-            <option class = "sel_low">우선순위 낮은순</option>
+            <option class = "sel_high" >높은순</option>
+            <option class = "sel_low" >낮은순</option>
           </select>
         </div>
       </div>
   </div>
-
 </template>
 
 <script>
-export default {}
+export default {
+  props : {
+    show: Boolean,
+    selectOption : ''
+  }
+}
 </script>
-
-
-
 
 <style scoped>
 .header {
@@ -49,14 +50,11 @@ export default {}
   margin-left: 6%;
   margin-top : 30px
 }
-
-
 .head-title{
   font-weight: bold;
   font-size: 50px;
   color: gray;
 }
-
 a {
   color: #42b983;
 }
