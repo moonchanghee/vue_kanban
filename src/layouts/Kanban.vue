@@ -3,8 +3,8 @@
     <div class="content" >
       <div class="ToDoMain">
         <div class = "item item-todo">ToDo</div>
-        <div class="ToDo" v-for = "item in todo"  >
-          <div v-if = "item.todoState === 'ToDo'">
+        <div class="ToDo" v-for = "item in todo">
+          <div v-if = "item.todoState === 'ToDo'" v-bind:id = "item.id" v-bind:class = "item.todoState" >
             <TodoItem
                 :item = "item"
                 @delete = "deleteId"
@@ -12,9 +12,9 @@
                 @dragstart = "startDrag($event , item)"
             />
             <div class="dropzone"
-                 @drop="onDrop($event, 1)"
+                 @drop = "$emit('onDrop' , $event, this.startId , item.todoState)"
                  @dragover = "ondragover($event)"
-                 @dragleave = "ondragleave($event)"
+                 @dragleave  = "ondragleave($event)"
             />
           </div>
         </div>
@@ -22,7 +22,7 @@
       <div class="In_progressMain">
         <div class = "item item-inprogress">In Progress</div>
         <div class="In_progress" v-for = "item in todo"  >
-          <div v-if = "item.todoState === 'In_progress'">
+          <div v-if = "item.todoState === 'In_progress'" v-bind:id = "item.id" v-bind:class = "item.todoState" >
             <TodoItem
                 :item = "item"
                 @delete = deleteId
@@ -30,9 +30,9 @@
                 @dragstart = "startDrag($event , item)"
             />
             <div class="dropzone"
-                 @drop="onDrop($event, 1)"
-                 @dragover.prevent
-                 @dragenter.prevent
+                 @drop = "$emit('onDrop' , $event, this.startId , item.todoState)"
+                 @dragover = "ondragover($event)"
+                 @dragleave  = "ondragleave($event)"
             />
           </div>
         </div>
@@ -40,7 +40,7 @@
       <div class="DoneMain">
         <div class = "item item-done">Done</div>
         <div class="Done" v-for = "item in todo"  >
-          <div v-if = "item.todoState === 'Done'">
+          <div v-if = "item.todoState === 'Done'" v-bind:id = "item.id" v-bind:class = "item.todoState" >
             <TodoItem
                 :item = "item"
                 @delete = deleteId
@@ -48,9 +48,9 @@
                 @dragstart = "startDrag($event , item)"
             />
             <div class="dropzone"
-                 @drop="onDrop($event, 1)"
-                 @dragover.prevent
-                 @dragenter.prevent
+                 @drop = "$emit('onDrop' , $event, this.startId , item.todoState)"
+                 @dragover = "ondragover($event)"
+                 @dragleave  = "ondragleave($event)"
             />
           </div>
         </div>
@@ -88,21 +88,12 @@ export default {
     startDrag (e, item) {
       console.log("start")
       this.startId = item.id
-      // e.dataTransfer.dropEffect = 'move'
-      // e.dataTransfer.effectAllowed = 'move'
-      // e.dataTransfer.setData('itemID', item.id)
-    },
-    onDrop (e, list) {
-      console.log("ondrop" , e, list)
-      e.target.classList.remove("dropzone_active")
-
-      // const itemID = e.dataTransfer.getData('itemID')
-      // const item = this.items.find(item => item.id == itemID)
-      // item.list = list
     },
     ondragover(e){
       console.log("dragover")
+      e.preventDefault()
       e.target.classList.add("dropzone_active")
+
     },
     ondragleave(e){
       console.log("dragleave")

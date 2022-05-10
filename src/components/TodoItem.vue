@@ -1,5 +1,5 @@
 <template>
-  <div class = "todoItem"  draggable="true" >
+  <div class = "todoItem"  draggable="true">
     <div class = "item_content">
       <p>제목 : {{item.todoTitle}} </p>
       <p>생성일 :{{item.todoDate}} </p>

@@ -25,6 +25,7 @@
         :todo="todo"
         @deleteId = "deleteItem"
         @updateId = "updateOpen"
+        @onDrop = "onDrop"
     />
   </div>
 </template>
@@ -53,6 +54,7 @@ export default {
     setTodoItem(e){
       this.showModal = e.state;
       this.todo.push(e)
+
       //스토리지 작업 추가
 
     },
@@ -69,7 +71,22 @@ export default {
       let updateIndex = this.todo.findIndex((e) => e.id === data.id)
       this.todo.splice(updateIndex , 1, data)
       this.showModal = data.state;
+    },
+    onDrop(e, id,s){
+      e.preventDefault()
+      // const selectItem = this.todo.find((e) => e.id === id)
+      // selectItem.todoState = s
+      // let updateIndex = this.todo.findIndex((e) => e.id === selectItem.id)
+      // this.todo.splice(updateIndex , 1, selectItem)
+      const droppedItem = document.querySelector(`[id="${id}"]`);
+      console.log(e.path[1])
+      e.path[1].after(droppedItem)
+
+      e.target.classList.remove("dropzone_active")
+      // this.updateBool = false
+
     }
+
   }
 }
 </script>
