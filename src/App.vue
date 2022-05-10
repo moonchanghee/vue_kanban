@@ -1,25 +1,15 @@
 <template>
   <div id="app">
-    <div class="header">
-      <div class="head-container">
-        <div class="head-title">To Do 칸반보드</div>
-        <div class="head-button"><div class = "headBtn" @click="showModal = true" >추가</div></div>
-        <div class="head-selectbox">우선순위
-          <select class = "select">
-            <option selected>선택</option>
-            <option class = "sel_high">우선순위 높은순</option>
-            <option class = "sel_low">우선순위 낮은순</option>
-          </select>
-        </div>
-      </div>
-    </div>
+    <Header
+      @openModal = "openModal"
+      @sortTodoList = "sortTodoList"
+    />
     <Modal
         :show= "showModal"
         :updateBool = "updateBool"
         :selectItem = "selectItem"
         @setData = "setTodoItem"
         @updateItem = "updateItem"
-
     />
     <Kanban
         :todo="todo"
@@ -33,14 +23,14 @@
 <script>
 import Modal from './components/Modal.vue'
 import Kanban from "./layouts/Kanban.vue";
-// import {eventBus} from "./main";
-import eventBus from "./eventBus";
+import Header from './layouts/Header.vue'
 
 export default {
   name: 'App',
   components: {
     Modal,
-    Kanban
+    Kanban,
+    Header
   },
   data(){
     return {
@@ -51,6 +41,21 @@ export default {
     }
   },
   methods: {
+    sortTodoList(e){
+      if(e === "높은순"){
+        this.todo.sort((a,b) => {
+          return a.todoPriorityNum-b.todoPriorityNum
+        })
+      }else if(e === "낮은순"){
+        this.todo.sort((a,b) => {
+          return b.todoPriorityNum - a.todoPriorityNum
+        })
+      }
+    },
+
+    openModal(e){
+      this.showModal = e
+    },
     setTodoItem(e){
       this.showModal = e.state;
       this.todo.push(e)
@@ -71,73 +76,21 @@ export default {
       let updateIndex = this.todo.findIndex((e) => e.id === data.id)
       this.todo.splice(updateIndex , 1, data)
       this.showModal = data.state;
+      this.updateBool = data.updateBool
     },
     onDrop(e, id,s){
       e.preventDefault()
-      // const selectItem = this.todo.find((e) => e.id === id)
-      // selectItem.todoState = s
-      // let updateIndex = this.todo.findIndex((e) => e.id === selectItem.id)
-      // this.todo.splice(updateIndex , 1, selectItem)
-      const droppedItem = document.querySelector(`[id="${id}"]`);
-      console.log(e.path[1])
-      e.path[1].after(droppedItem)
-
+      let selectItem = this.todo.find((e) => e.id === id)
+      selectItem.todoState = s
+      let deleteId = this.todo.findIndex((e) => e.id === id)
+      this.todo.splice(deleteId , 1)
+      let move = this.todo.findIndex((d) => d.id === e.path[1].id)
+      this.todo.splice(move+1 , 0, selectItem)
       e.target.classList.remove("dropzone_active")
-      // this.updateBool = false
-
     }
-
   }
 }
 </script>
 
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-.header {
-  width: 100%;
-  height: 60px;
-  margin-top: 50px;
-  top : 0;
-  left : 0;
-  text-align: center;
-}
-.head-button{
-  float: right;
-  margin-right: 6%;
-  width: 120px;
-  height: 50px;
-  font-size:30px;
-  color: white;
-  line-height: 50px;
-  text-align: center;
-  background: black;
-  border: solid 2px;
-  border-radius: 17px;
-}
-.head-selectbox{
-  float: left;
-  margin-left: 6%;
-  margin-top : 30px
-}
-
-
-.head-title{
-  font-weight: bold;
-  font-size: 50px;
-  color: gray;
-}
-
-a {
-  color: #42b983;
-}
-</style>
 
