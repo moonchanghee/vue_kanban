@@ -3,6 +3,11 @@
     <div class="content" >
       <div class="ToDoMain">
         <div class = "item item-todo">ToDo</div>
+        <div class="dropzone"
+             @drop = "$emit('onDrop' , $event, this.startId , 'ToDo')"
+             @dragover = "ondragover($event)"
+             @dragleave  = "ondragleave($event)"
+        />
         <div class="ToDo" v-for = "item in todo">
           <div v-if = "item.todoState === 'ToDo'" v-bind:id = "item.id" v-bind:class = "item.todoState" >
             <TodoItem
@@ -21,7 +26,12 @@
       </div>
       <div class="In_progressMain">
         <div class = "item item-inprogress">In Progress</div>
-        <div class="In_progress" v-for = "item in todo"  >
+        <div class="dropzone"
+             @drop = "$emit('onDrop' , $event, this.startId , 'In_progress')"
+             @dragover = "ondragover($event)"
+             @dragleave  = "ondragleave($event)"
+        />
+        <div class="In_progress" v-for = "item in todo">
           <div v-if = "item.todoState === 'In_progress'" v-bind:id = "item.id" v-bind:class = "item.todoState" >
             <TodoItem
                 :item = "item"
@@ -39,6 +49,11 @@
       </div>
       <div class="DoneMain">
         <div class = "item item-done">Done</div>
+        <div class="dropzone"
+             @drop = "$emit('onDrop' , $event, this.startId , 'Done')"
+             @dragover = "ondragover($event)"
+             @dragleave  = "ondragleave($event)"
+        />
         <div class="Done" v-for = "item in todo"  >
           <div v-if = "item.todoState === 'Done'" v-bind:id = "item.id" v-bind:class = "item.todoState" >
             <TodoItem
@@ -75,9 +90,6 @@ export default {
   props:{
     todo : Array,
   },
-  computed : {
-
-  },
   methods : {
     deleteId(e){
       this.$emit('deleteId' , e)
@@ -86,17 +98,14 @@ export default {
       this.$emit('updateId' , e)
     },
     startDrag (e, item) {
-      console.log("start")
       this.startId = item.id
     },
     ondragover(e){
-      console.log("dragover")
       e.preventDefault()
       e.target.classList.add("dropzone_active")
 
     },
     ondragleave(e){
-      console.log("dragleave")
       e.target.classList.remove("dropzone_active")
     }
   }

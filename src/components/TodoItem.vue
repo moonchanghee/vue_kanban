@@ -14,22 +14,13 @@
 </template>
 
 <script>
-// import {eventBus} from "../main";
 
 
 export default {
   props: {
     item : Object,
-    // delId : Function
     test : Function
   },
-  methods : {
-    // emitDeleteId : function(e){
-    //   // eventBus.$emit("test" , "ddddddd")
-    //
-    //   console.log("이벤트 송신")
-    // }
-  }
 }
 
 </script>
@@ -48,15 +39,11 @@ export default {
   float: left;
 }
 
-
 .item_button{
   display: inline-block;
-  /*margin-top: 5px;*/
   margin: 5px 5px;
   float:right;
 
 }
-
-
 
 </style>
