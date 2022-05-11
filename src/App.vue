@@ -4,14 +4,10 @@
       @sortTodoList = "sortTodoList"
     />
     <Modal
-        :show= "showModal"
         :updateBool = "updateBool"
         :selectItem = "selectItem"
     />
-    <Kanban
-        :todo="todo"
-        @updateId = "updateOpen"
-    />
+    <Kanban/>
   </div>
 </template>
 
@@ -46,13 +42,7 @@ export default {
           return b.todoPriorityNum - a.todoPriorityNum
         })
       }
-    },
-
-    updateOpen(i){
-      this.selectItem = this.todo.find((e) => e.id === i)
-      this.showModal = true;
-      this.updateBool = true
-    },
+    }
   }
 }
 </script>

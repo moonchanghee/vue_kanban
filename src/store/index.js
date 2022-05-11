@@ -1,11 +1,11 @@
 import {createStore} from 'vuex'
-// import dragDrop from './modules/dragDrop'
 export default createStore({
 
     state : {
         todo : [],
         modalState : false,
         startId : '',
+        updateTodo : ''
     },
     getters : { //state 가져오기
         getTodo(state){
@@ -18,6 +18,7 @@ export default createStore({
     mutations : { // 상태변화
         addItem : function(s,d){
             this.state.todo.push(d)
+            this.state.modalState = false
         },
         deleteItem : function(s,id){
             let itemIndex = this.state.todo.findIndex((e) => e.id === id)
@@ -33,16 +34,14 @@ export default createStore({
         onDrop : function(s , data){
             data.event.preventDefault()
             let selectItem = this.state.todo.find((e) => e.id === this.state.startId)
-            selectItem.todoState = data.todoState
             let deleteId = this.state.todo.findIndex((e) => e.id === this.state.startId)
-            this.state.todo.splice(deleteId , 1)
             let move = this.state.todo.findIndex((d) => d.id === data.event.path[1].id)
+            selectItem.todoState = data.todoState
+            this.state.todo.splice(deleteId , 1)
             this.state.todo.splice(move+1 , 0, selectItem)
         }
     },
     actions : { //
-
-
 
     }
 

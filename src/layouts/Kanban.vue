@@ -54,6 +54,7 @@
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -65,11 +66,6 @@ export default {
   components : {
     TodoItem,
     DropZone
-  },
-  data(){
-    return {
-      startId : "",
-    }
   },
   props:{
     todo : Array,

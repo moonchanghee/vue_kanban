@@ -6,7 +6,7 @@
     </div>
     <div>
       <label for="date" >완료일: </label>
-      <input v-bind:value="todoDate" v-on:input="updatDate">
+      <input v-bind:value="todoDate" v-on:input="updateDate">
     </div>
     <div>
       우선순위<select v-model="prioritySelected" v-on:input="updatePriority">
@@ -20,7 +20,7 @@
         </option>
       </select>
     <p><textarea cols="45" rows="10" v-bind:value="todoContents" v-on:input="updateContents"></textarea></p>
-        <div class="closeBtn"  @click =  "onClickAddItem">작성완료</div>
+        <div class="closeBtn"  @click="onClickAddItem">작성완료</div>
     </div>
   </div>
 </template>
@@ -58,7 +58,7 @@ export default {
     updateTitle: function(e) {
       this.todoTitle = e.target.value
     },
-    updatDate: function(e) {
+    updateDate: function(e) {
       this.todoDate = e.target.value
     },
     updatedState: function(e) {
@@ -90,7 +90,6 @@ export default {
         prioritySelected:this.prioritySelected
       }
       this.$store.commit('addItem' , data)
-      this.$store.state.modalState = false
     }
   }
 
@@ -108,7 +107,6 @@ export default {
   width: 400px;
   height: 350px;
   border: 2px solid black;
-
 }
 
 </style>

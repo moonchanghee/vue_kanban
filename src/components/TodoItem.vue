@@ -12,7 +12,6 @@
     </div>
   </div>
 </template>
-정
 <script>
 export default {
   props: {
@@ -23,7 +22,8 @@ export default {
       this.$store.commit('deleteItem', this.item.id)
     },
     updateBtn(){
-      this.$store.commit('deleteItem', this.item.id)
+      this.$store.state.modalState = true
+      this.$store.state.updateTodo = this.item
     }
   }
 }
