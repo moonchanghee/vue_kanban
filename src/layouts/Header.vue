@@ -1,23 +1,20 @@
 <template>
   <div class="header">
-      <div class="head-container">
         <div class="head-title">To Do 칸반보드</div>
-        <div class="head-button"><div class = "headBtn" @click =  "$emit('openModal', true)" >추가</div></div>
+        <div class="head-button"><div class = "headBtn" @click =  "this.$store.state.modalState = true" >추가</div></div>
         <div class="head-selectbox">우선순위
           <select class = "select"  v-model = "selectOption" @change="$emit('sortTodoList', selectOption)">
             <option selected>선택</option>
-            <option class = "sel_high" >높은순</option>
-            <option class = "sel_low" >낮은순</option>
+            <option>높은순</option>
+            <option>낮은순</option>
           </select>
         </div>
-      </div>
   </div>
 </template>
 
 <script>
 export default {
   props : {
-    show: Boolean,
     selectOption : ''
   }
 }
