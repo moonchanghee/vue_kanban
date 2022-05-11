@@ -3,69 +3,51 @@
     <div class="content" >
       <div class="ToDoMain">
         <div class = "item item-todo">ToDo</div>
-        <div class="dropzone"
-             @drop = "$emit('onDrop' , $event, this.startId , 'ToDo')"
-             @dragover = "ondragover($event)"
-             @dragleave  = "ondragleave($event)"
+        <DropZone
+            :todoState = "'Todo'"
         />
-        <div class="ToDo" v-for = "item in todo">
+        <div class="ToDo" v-for = "item in $store.state.todo">
           <div v-if = "item.todoState === 'ToDo'" v-bind:id = "item.id" v-bind:class = "item.todoState" >
             <TodoItem
                 :item = "item"
-                @delete = "deleteId"
-                @update = "updateId"
-                @dragstart = "startDrag($event , item)"
+                @dragstart = "startDrag(item.id)"
             />
-            <div class="dropzone"
-                 @drop = "$emit('onDrop' , $event, this.startId , item.todoState)"
-                 @dragover = "ondragover($event)"
-                 @dragleave  = "ondragleave($event)"
+            <DropZone
+                :todoState = "item.todoState"
             />
           </div>
         </div>
       </div>
       <div class="In_progressMain">
         <div class = "item item-inprogress">In Progress</div>
-        <div class="dropzone"
-             @drop = "$emit('onDrop' , $event, this.startId , 'In_progress')"
-             @dragover = "ondragover($event)"
-             @dragleave  = "ondragleave($event)"
+        <DropZone
+            :todoState = "'In_progress'"
         />
-        <div class="In_progress" v-for = "item in todo">
+        <div class="In_progress" v-for = "item in this.$store.state.todo">
           <div v-if = "item.todoState === 'In_progress'" v-bind:id = "item.id" v-bind:class = "item.todoState" >
             <TodoItem
                 :item = "item"
-                @delete = deleteId
-                @update = "updateId"
-                @dragstart = "startDrag($event , item)"
+                @dragstart = "startDrag(item.id)"
             />
-            <div class="dropzone"
-                 @drop = "$emit('onDrop' , $event, this.startId , item.todoState)"
-                 @dragover = "ondragover($event)"
-                 @dragleave  = "ondragleave($event)"
+            <DropZone
+                :todoState = "item.todoState"
             />
           </div>
         </div>
       </div>
       <div class="DoneMain">
         <div class = "item item-done">Done</div>
-        <div class="dropzone"
-             @drop = "$emit('onDrop' , $event, this.startId , 'Done')"
-             @dragover = "ondragover($event)"
-             @dragleave  = "ondragleave($event)"
+        <DropZone
+            :todoState = "'Done'"
         />
-        <div class="Done" v-for = "item in todo"  >
+        <div class="Done" v-for = "item in this.$store.state.todo">
           <div v-if = "item.todoState === 'Done'" v-bind:id = "item.id" v-bind:class = "item.todoState" >
             <TodoItem
                 :item = "item"
-                @delete = deleteId
-                @update = "updateId"
-                @dragstart = "startDrag($event , item)"
+                @dragstart = "startDrag(item.id)"
             />
-            <div class="dropzone"
-                 @drop = "$emit('onDrop' , $event, this.startId , item.todoState)"
-                 @dragover = "ondragover($event)"
-                 @dragleave  = "ondragleave($event)"
+            <DropZone
+                :todoState = "item.todoState"
             />
           </div>
         </div>
@@ -76,11 +58,13 @@
 
 <script>
 import TodoItem from '../components/TodoItem.vue'
+import DropZone from "../components/DropZone.vue";
 
 export default {
   name : "kanban",
   components : {
     TodoItem,
+    DropZone
   },
   data(){
     return {
@@ -91,23 +75,9 @@ export default {
     todo : Array,
   },
   methods : {
-    deleteId(e){
-      this.$emit('deleteId' , e)
+    startDrag (id) {
+      this.$store.state.startId = id
     },
-    updateId(e){
-      this.$emit('updateId' , e)
-    },
-    startDrag (e, item) {
-      this.startId = item.id
-    },
-    ondragover(e){
-      e.preventDefault()
-      e.target.classList.add("dropzone_active")
-
-    },
-    ondragleave(e){
-      e.target.classList.remove("dropzone_active")
-    }
   }
 }
 
@@ -164,13 +134,4 @@ a {
   color: #42b983;
 }
 
-.dropzone{
-  height: 7px;
-  transition: background 0.15s, height 0.15s;
-}
-
-.dropzone_active {
-  height: 30px;
-  background: rgba(0, 0, 0, 0.25);
-}
 </style>

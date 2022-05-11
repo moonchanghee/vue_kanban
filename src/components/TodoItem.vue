@@ -6,23 +6,27 @@
       <p>내용 : {{item.todoContents}}</p>
     </div>
     <div class="item_button">
-      <button class = "delbtn" @click = "$emit('delete', item.id)" >삭제</button>
-      <button class = "upbtn" @click = "$emit('update', item.id)" >수정</button>
+      <button class = "delbtn" @click = "deleteBtn" >삭제</button>
+      <button class = "upbtn" @click = "updateBtn" >수정</button>
       <p class = "priority"> {{item.todoPriority}}</p>
     </div>
   </div>
 </template>
-
+정
 <script>
-
-
 export default {
   props: {
     item : Object,
-    test : Function
   },
+  methods : {
+    deleteBtn(){
+      this.$store.commit('deleteItem', this.item.id)
+    },
+    updateBtn(){
+      this.$store.commit('deleteItem', this.item.id)
+    }
+  }
 }
-
 </script>
 
 
