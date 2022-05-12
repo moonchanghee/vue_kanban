@@ -7,13 +7,8 @@ export default createStore({
         startId : '',
         updateTodo : ''
     },
-    getters : { //state 가져오기
-        getTodo(state){
-            return state.todo
-        },
-        selectItem(state, id){
-            return state.todo.find((e) => e.id === id)
-        }
+    getters : {
+
     },
     mutations : { // 상태변화
         addItem : function(s,d){
@@ -27,9 +22,12 @@ export default createStore({
         updateItem : function(s,item){
             let updateIndex = this.state.todo.findIndex((e) => e.id === item.id)
             this.state.todo.splice(updateIndex , 1, item)
+            this.state.updateTodo = ""
+            this.state.modalState = false
         },
-        updateOpenModal : function(){
-
+        updateOpenModal : function(s,item){
+            this.state.modalState = true
+            this.state.updateTodo = item
         },
         onDrop : function(s , data){
             data.event.preventDefault()
@@ -39,10 +37,37 @@ export default createStore({
             selectItem.todoState = data.todoState
             this.state.todo.splice(deleteId , 1)
             this.state.todo.splice(move+1 , 0, selectItem)
+        },
+        sortTodoList(s,e){
+            if(e === "높은순"){
+                this.state.todo.sort((a,b) => {
+                    return a.todoPriorityNum-b.todoPriorityNum
+                })
+            }else if(e === "낮은순"){
+                this.state.todo.sort((a,b) => {
+                    return b.가todoPriorityNum - a.todoPriorityNum
+                })
+            }
         }
     },
-    actions : { //
-
+    actions : {
+        addItem({commit}, data){
+            commit("addItem", data)
+        },
+        onDrop({commit}, data){
+            commit("onDrop", data)
+        },
+        deleteItem({commit},id){
+            commit("deleteItem", id)
+        },
+        updateItem({commit},data){
+            commit("updateItem", data)
+        },
+        updateOpenModal({commit},data){
+            commit("updateOpenModal", data)
+        },
+        sortTodoList({commit}, data){
+            commit("sortTodoList", data)
+        }
     }
-
 })
