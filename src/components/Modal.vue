@@ -1,12 +1,14 @@
 <template>
-  <div class="modal hidden"  v-if = "this.$store.state.modalState" >
+  <div class="modal hidden"  v-if = "this.$store.state.modalState">
     <div>
       <label for="title" >제목:</label>
-      <input v-bind:value="todoTitle" v-on:input="updateTitle">
+      <input v-if="this.$store.state.updateTodo === ''" v-bind:value="todoTitle" v-on:input="updateTitle">
+      <input v-else v-bind:value="todoTitle = this.$store.state.updateTodo.todoTitle" v-on:input="updateTitle">
     </div>
     <div>
       <label for="date" >완료일: </label>
-      <input v-bind:value="todoDate" v-on:input="updateDate">
+      <input v-if="this.$store.state.updateTodo === ''" v-bind:value="todoDate" v-on:input="updateDate">
+      <input v-else v-bind:value="todoDate = this.$store.state.updateTodo.todoDate" v-on:input="updateDate">
     </div>
     <div>
       우선순위<select v-model="prioritySelected" v-on:input="updatePriority">
@@ -19,25 +21,27 @@
           {{ option.text }}
         </option>
       </select>
-    <p><textarea cols="45" rows="10" v-bind:value="todoContents" v-on:input="updateContents"></textarea></p>
-        <div class="closeBtn"  @click="onClickAddItem">작성완료</div>
+      <br/>
+      <br/>
+      <textarea cols="45" rows="10" v-if="this.$store.state.updateTodo === ''" v-bind:value="todoContents = ''" v-on:input="updateContents"></textarea>
+      <textarea cols="45" rows="10" v-else v-bind:value="todoContents = this.$store.state.updateTodo.todoContents" v-on:input="updateContents"></textarea>
+      <div v-if="this.$store.state.updateTodo === ''" class="closeBtn"  @click="onClickAddItem">작성완료</div>
+      <div v-else @click="onClickUpdateItem">수정완료</div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: {
-    updateBool : Boolean,
-  },
+
   data() {
     return{
       todoTitle: "",
-      todoDate : '',
-      todoState : '',
-      todoPriority : '',
-      todoContents : '',
-      todoPriorityNum : '',
+      todoDate : "",
+      todoState : "",
+      todoPriority : "",
+      todoContents : "",
+      todoPriorityNum : "",
       stateSelected: '0',
       prioritySelected: '0',
       stateOptions: [
@@ -71,16 +75,9 @@ export default {
     updateContents : function(e){
       this.todoContents = e.target.value
     },
-    uuid : function(){
-      return 'xx'.replace(/[xy]/g, function(c) {
-        let r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-      });
-    },
-
-    onClickAddItem(){
-      let data = {
-        id : this.uuid(),
+    getItemList(e){
+      return {
+        id : e,
         todoTitle : this.todoTitle,
         todoDate : this.todoDate,
         todoPriority: this.todoPriority,
@@ -89,7 +86,21 @@ export default {
         todoState : this.stateSelected,
         prioritySelected:this.prioritySelected
       }
-      this.$store.commit('addItem' , data)
+    }
+    ,
+    uuid : function(){
+      return 'xx'.replace(/[xy]/g, function(c) {
+        let r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+      });
+    },
+    onClickUpdateItem(){
+      let id = this.$store.state.updateTodo.id
+      this.$store.dispatch('updateItem', this.getItemList(id))
+    },
+    onClickAddItem(){
+      let id = this.uuid()
+      this.$store.dispatch('addItem', this.getItemList(id))
     }
   }
 
