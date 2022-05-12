@@ -1,12 +1,7 @@
 <template>
   <div id="app">
-    <Header
-      @sortTodoList = "sortTodoList"
-    />
-    <Modal
-        :updateBool = "updateBool"
-        :selectItem = "selectItem"
-    />
+    <Header/>
+    <Modal/>
     <Kanban/>
   </div>
 </template>
@@ -22,27 +17,6 @@ export default {
     Modal,
     Kanban,
     Header
-  },
-  data(){
-    return {
-      showModal: false,
-      todo : [],
-      selectItem : [],
-      updateBool : false
-    }
-  },
-  methods: {
-    sortTodoList(e){
-      if(e === "높은순"){
-        this.todo.sort((a,b) => {
-          return a.todoPriorityNum-b.todoPriorityNum
-        })
-      }else if(e === "낮은순"){
-        this.todo.sort((a,b) => {
-          return b.todoPriorityNum - a.todoPriorityNum
-        })
-      }
-    }
   }
 }
 </script>
