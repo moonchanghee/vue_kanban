@@ -17,7 +17,7 @@ export default {
         event : e ,
         todoState : this.todoState
       }
-      this.$store.commit('onDrop' , data )
+      this.$store.dispatch('onDrop', data)
       e.target.classList.remove("dropzone_active")
     },
     onDragover(e){
