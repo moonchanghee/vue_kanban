@@ -19,11 +19,10 @@ export default {
   },
   methods : {
     deleteBtn(){
-      this.$store.commit('deleteItem', this.item.id)
+      this.$store.dispatch('deleteItem', this.item.id)
     },
     updateBtn(){
-      this.$store.state.modalState = true
-      this.$store.state.updateTodo = this.item
+      this.$store.dispatch('updateOpenModal', this.item)
     }
   }
 }
