@@ -45,7 +45,7 @@ export default createStore({
                 })
             }else if(e === "낮은순"){
                 this.state.todo.sort((a,b) => {
-                    return b.가todoPriorityNum - a.todoPriorityNum
+                    return b.todoPriorityNum - a.todoPriorityNum
                 })
             }
         }
