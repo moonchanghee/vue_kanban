@@ -1,4 +1,5 @@
 import {createStore} from 'vuex'
+import Constant from '../constant'
 export default createStore({
 
     state : {
@@ -7,67 +8,64 @@ export default createStore({
         startId : '',
         updateTodo : ''
     },
-    getters : {
-
-    },
     mutations : { // 상태변화
-        addItem : function(s,d){
-            this.state.todo.push(d)
-            this.state.modalState = false
+        addItem : function(s,payload){
+            s.todo.push(payload)
+            s.modalState = false
         },
-        deleteItem : function(s,id){
-            let itemIndex = this.state.todo.findIndex((e) => e.id === id)
-            this.state.todo.splice(itemIndex , 1)
+        deleteItem : function(s,payload){
+            let itemIndex = s.todo.findIndex((e) => e.id === payload)
+            s.todo.splice(itemIndex , 1)
         },
-        updateItem : function(s,item){
-            let updateIndex = this.state.todo.findIndex((e) => e.id === item.id)
-            this.state.todo.splice(updateIndex , 1, item)
-            this.state.updateTodo = ""
-            this.state.modalState = false
+        updateItem : function(s,payload){
+            let updateIndex = s.todo.findIndex((e) => e.id === payload.id)
+            s.todo.splice(updateIndex , 1, payload)
+            s.updateTodo = ""
+            s.modalState = false
         },
-        updateOpenModal : function(s,item){
-            this.state.modalState = true
-            this.state.updateTodo = item
+        updateOpenModal : function(s,payload){
+            s.modalState = true
+            s.updateTodo = payload
         },
-        onDrop : function(s , data){
-            data.event.preventDefault()
-            let selectItem = this.state.todo.find((e) => e.id === this.state.startId)
-            let deleteId = this.state.todo.findIndex((e) => e.id === this.state.startId)
-            let move = this.state.todo.findIndex((d) => d.id === data.event.path[1].id)
-            selectItem.todoState = data.todoState
-            this.state.todo.splice(deleteId , 1)
-            this.state.todo.splice(move+1 , 0, selectItem)
+        onDrop : function(s , payload){
+            payload.event.preventDefault()
+            let selectItem = s.todo.find((e) => e.id === s.startId)
+            let deleteId = s.todo.findIndex((e) => e.id === s.startId)
+            let move = s.todo.findIndex((d) => d.id === payload.event.path[1].id)
+            selectItem.todoState = payload.todoState
+            s.todo.splice(deleteId , 1)
+            s.todo.splice(move+1 , 0, selectItem)
         },
-        sortTodoList(s,e){
-            if(e === "높은순"){
-                this.state.todo.sort((a,b) => {
+        sortTodoList(s,payload){
+            if(payload === "높은순"){
+                s.todo.sort((a,b) => {
                     return a.todoPriorityNum-b.todoPriorityNum
                 })
-            }else if(e === "낮은순"){
-                this.state.todo.sort((a,b) => {
+            }else if(payload === "낮은순"){
+                s.todo.sort((a,b) => {
                     return b.todoPriorityNum - a.todoPriorityNum
                 })
             }
-        }
+        },
     },
     actions : {
-        addItem({commit}, data){
-            commit("addItem", data)
+        [Constant.ADD_ITEM] : ({commit}, payload) => {
+            commit(Constant.ADD_ITEM, payload)
         },
-        onDrop({commit}, data){
-            commit("onDrop", data)
+        [Constant.ON_DROP] : ({commit}, payload) => {
+            commit(Constant.ON_DROP, payload)
         },
-        deleteItem({commit},id){
-            commit("deleteItem", id)
+        [Constant.DELETE_ITEM] : ({commit}, payload) => {
+            commit(Constant.DELETE_ITEM, payload)
         },
-        updateItem({commit},data){
-            commit("updateItem", data)
+        [Constant.UPDATE_ITEM] : ({commit}, payload) => {
+            commit(Constant.UPDATE_ITEM, payload)
         },
-        updateOpenModal({commit},data){
-            commit("updateOpenModal", data)
+        [Constant.UPDATE_OPEN_MODAL] : ({commit}, payload) => {
+            commit(Constant.UPDATE_OPEN_MODAL, payload)
         },
-        sortTodoList({commit}, data){
-            commit("sortTodoList", data)
-        }
+        [Constant.SORT_TODOLIST] : ({commit}, payload) => {
+            commit(Constant.SORT_TODOLIST, payload)
+        },
     }
 })
