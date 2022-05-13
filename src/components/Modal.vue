@@ -12,15 +12,15 @@
     </div>
     <div>
       우선순위<select v-model="prioritySelected" v-on:input="updatePriority">
-        <option v-for="option in stateOptions" v-bind:value="option.value" >
-          {{ option.text }}
-        </option>
-      </select>
+      <option v-for="option in stateOptions" v-bind:value="option.value" >
+        {{ option.text }}
+      </option>
+    </select>
       상태<select v-model="stateSelected" v-on:input="updatedState">
-        <option v-for="option in priorityOptions" v-bind:value="option.value">
-          {{ option.text }}
-        </option>
-      </select>
+      <option v-for="option in priorityOptions" v-bind:value="option.value">
+        {{ option.text }}
+      </option>;
+    </select>
       <br/>
       <br/>
       <textarea cols="45" rows="10" v-if="this.$store.state.updateTodo === ''" v-bind:value="todoContents = ''" v-on:input="updateContents"></textarea>
@@ -98,6 +98,7 @@ export default {
       let id = this.$store.state.updateTodo.id
       this.$store.dispatch('updateItem', this.getItemList(id))
     },
+
     onClickAddItem(){
       let id = this.uuid()
       this.$store.dispatch('addItem', this.getItemList(id))
