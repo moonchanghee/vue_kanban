@@ -14,7 +14,7 @@ export default {
   methods : {
     onDrop(e){
       let data = {
-        event : e ,
+        event : e,
         todoState : this.todoState
       }
       this.$store.dispatch('onDrop', data)

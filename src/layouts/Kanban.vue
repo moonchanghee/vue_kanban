@@ -4,9 +4,9 @@
       <div class="ToDoMain">
         <div class = "item item-todo">ToDo</div>
         <DropZone
-            :todoState = "'Todo'"
+            :todoState = "'ToDo'"
         />
-        <div class="ToDo" v-for = "item in $store.state.todo">
+        <div class="ToDo" v-for = "item in this.$store.state.todo">
           <div v-if = "item.todoState === 'ToDo'" v-bind:id = "item.id" v-bind:class = "item.todoState" >
             <TodoItem
                 :item = "item"
@@ -67,6 +67,7 @@ export default {
     TodoItem,
     DropZone
   },
+
   props:{
     todo : Array,
   },

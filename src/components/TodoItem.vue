@@ -6,8 +6,8 @@
       <p>내용 : {{item.todoContents}}</p>
     </div>
     <div class="item_button">
-      <button class = "delbtn" @click = "deleteBtn" >삭제</button>
-      <button class = "upbtn" @click = "updateBtn" >수정</button>
+      <button @click = "deleteBtn" >삭제</button>
+      <button @click = "updateBtn" >수정</button>
       <p class = "priority"> {{item.todoPriority}}</p>
     </div>
   </div>
@@ -41,12 +41,10 @@ export default {
   display: inline-block;
   float: left;
 }
-
 .item_button{
   display: inline-block;
   margin: 5px 5px;
   float:right;
 
 }
-
 </style>
