@@ -67,10 +67,6 @@ export default {
     TodoItem,
     DropZone
   },
-
-  props:{
-    todo : Array,
-  },
   methods : {
     startDrag (id) {
       this.$store.state.startId = id
