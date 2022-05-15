@@ -8,16 +8,22 @@
 
 <script>
 export default {
+  data() {
+    return{
+      todo : this.$store.state.todo
+    }
+  },
+
   props: {
     todoState : String
   },
   methods : {
     onDrop(e){
-      let data = {
+      let payload = {
         event : e,
         todoState : this.todoState
       }
-      this.$store.dispatch('onDrop', data)
+      this.$store.dispatch('onDrop', payload)
       e.target.classList.remove("dropzone_active")
     },
     onDragover(e){

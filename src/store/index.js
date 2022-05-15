@@ -8,7 +8,7 @@ export default createStore({
         startId : '',
         updateTodo : ''
     },
-    mutations : { // 상태변화
+    mutations : {
         addItem : function(s,payload){
             s.todo.push(payload)
             s.modalState = false
@@ -31,9 +31,9 @@ export default createStore({
             payload.event.preventDefault()
             let selectItem = s.todo.find((e) => e.id === s.startId)
             let deleteId = s.todo.findIndex((e) => e.id === s.startId)
+            s.todo.splice(deleteId , 1)
             let move = s.todo.findIndex((d) => d.id === payload.event.path[1].id)
             selectItem.todoState = payload.todoState
-            s.todo.splice(deleteId , 1)
             s.todo.splice(move+1 , 0, selectItem)
         },
         sortTodoList(s,payload){
