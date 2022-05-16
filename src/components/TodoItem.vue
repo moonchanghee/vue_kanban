@@ -13,16 +13,17 @@
   </div>
 </template>
 <script>
+import Constant from "../constant";
 export default {
   props: {
     item : Object,
   },
   methods : {
     deleteBtn(){
-      this.$store.dispatch('deleteItem', this.item.id)
+      this.$store.dispatch(Constant.DELETE_ITEM, this.item.id)
     },
     updateBtn(){
-      this.$store.dispatch('updateOpenModal', this.item)
+      this.$store.dispatch(Constant.UPDATE_OPEN_MODAL, this.item)
     }
   }
 }

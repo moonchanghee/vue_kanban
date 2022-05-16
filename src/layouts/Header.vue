@@ -13,13 +13,14 @@
 </template>
 
 <script>
+import Constant from "../constant";
 export default {
   props : {
     selectOption : ''
   },
   methods : {
     onChangeSelect(){
-      this.$store.dispatch('sortTodoList', this.selectOption)
+      this.$store.dispatch(Constant.SORT_TODOLIST, this.selectOption)
     }
   }
 }

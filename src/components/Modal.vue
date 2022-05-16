@@ -23,10 +23,10 @@
     </div>
   </div>
 </template>
-
 <script>
-export default {
+import Constant from "../constant";
 
+export default {
   data() {
     return{
       todoTitle: "",

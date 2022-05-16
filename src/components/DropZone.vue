@@ -7,6 +7,10 @@
 </template>
 
 <script>
+import Constant from "../constant";
+import {mapState, mapMutations} from 'vuex'
+//수정
+
 export default {
   data() {
     return{
@@ -23,7 +27,7 @@ export default {
         event : e,
         todoState : this.todoState
       }
-      this.$store.dispatch('onDrop', payload)
+      this.$store.dispatch(Constant.ON_DROP, payload)
       e.target.classList.remove("dropzone_active")
     },
     onDragover(e){
