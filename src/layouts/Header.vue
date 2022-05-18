@@ -13,6 +13,7 @@
 </template>
 
 <script>
+//캐싱 수정 , this
 import Constant from "../constant";
 export default {
   props : {

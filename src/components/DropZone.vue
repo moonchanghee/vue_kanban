@@ -40,9 +40,7 @@ export default {
   }
 }
 
-</script>
-
-<style>
+</script><style>
 .dropzone{
   height: 7px;
   transition: background 0.15s, height 0.15s;
@@ -54,3 +52,5 @@ export default {
 }
 
 </style>
+
+
