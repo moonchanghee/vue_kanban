@@ -1,53 +1,47 @@
 <template>
   <div class="kanban">
     <div class="content" >
-      <div class="ToDoMain">
+      <div class="ToDo"
+           @drop = "onDrop($event)"
+           @dragover = "onDragover($event)"
+           @dragleave  = "onDragleave($event)"
+      >
         <div class = "item item-todo">ToDo</div>
-        <DropZone
-            :todoState = "'ToDo'"
-        />
         <div class="ToDo" v-for = "item in this.$store.state.todo">
           <div v-if = "item.todoState === 'ToDo'" v-bind:id = "item.id" v-bind:class = "item.todoState" >
             <TodoItem
                 :item = "item"
-                @dragstart = "startDrag(item.id)"
-            />
-            <DropZone
-                :todoState = "item.todoState"
+                @dragstart = "onStartDrag(item.id)"
             />
           </div>
         </div>
       </div>
-      <div class="In_progressMain">
+      <div class="In_progress"
+           @drop = "onDrop($event)"
+           @dragover = "onDragover($event)"
+           @dragleave  = "onDragleave($event)"
+      >
         <div class = "item item-inprogress">In Progress</div>
-        <DropZone
-            :todoState = "'In_progress'"
-        />
-        <div class="In_progress" v-for = "item in this.$store.state.todo">
+        <div v-for = "item in this.$store.state.todo">
           <div v-if = "item.todoState === 'In_progress'" v-bind:id = "item.id" v-bind:class = "item.todoState" >
             <TodoItem
                 :item = "item"
-                @dragstart = "startDrag(item.id)"
-            />
-            <DropZone
-                :todoState = "item.todoState"
+                @dragstart = "onStartDrag(item.id)"
             />
           </div>
         </div>
       </div>
-      <div class="DoneMain">
+      <div class="Done"
+           @drop = "onDrop($event)"
+           @dragover = "onDragover($event)"
+           @dragleave  = "onDragleave($event)"
+      >
         <div class = "item item-done">Done</div>
-        <DropZone
-            :todoState = "'Done'"
-        />
         <div class="Done" v-for = "item in this.$store.state.todo">
           <div v-if = "item.todoState === 'Done'" v-bind:id = "item.id" v-bind:class = "item.todoState" >
             <TodoItem
                 :item = "item"
-                @dragstart = "startDrag(item.id)"
-            />
-            <DropZone
-                :todoState = "item.todoState"
+                @dragstart = "onStartDrag(item.id)"
             />
           </div>
         </div>
@@ -60,6 +54,7 @@
 <script>
 import TodoItem from '../components/TodoItem.vue'
 import DropZone from "../components/DropZone.vue";
+import Constant from "../constant";
 
 export default {
   name : "kanban",
@@ -68,9 +63,41 @@ export default {
     DropZone
   },
   methods : {
-    startDrag (id) {
+    onStartDrag (id) {
       this.$store.state.startId = id
+      console.log("start")
     },
+
+    //캐싱 수정
+    onDrop(e){
+      e.preventDefault()
+      console.log("eeee", e.path[2].getAttribute("class"))
+      // console.log("eeee", e.path[2].getAttribute("class"))
+
+      if(e.path[2].getAttribute("class") === "content"){
+        console.log(e.path[2])
+        console.log(e.path[1].getAttribute("class"))
+      }
+      let payload = {
+        event : e,
+        todoState : e.path[2].getAttribute("class")
+      }
+      this.$store.dispatch(Constant.ON_DROP, payload)
+      e.target.classList.remove("dropzone_active")
+    },
+
+
+
+
+    onDragover(e){
+      e.preventDefault()
+      // console.log("dragover" ,e)
+      // e.target.classList.add("dropzone_active")
+    },
+    onDragleave(e){
+      console.log("dragleave" ,e)
+      // e.target.classList.remove("dropzone_active")
+    }
   }
 }
 
@@ -126,5 +153,16 @@ export default {
 a {
   color: #42b983;
 }
+
+/* .dropzone{*/
+/*   height: 7px;*/
+/*   transition: background 0.15s, height 0.15s;*/
+/* }*/
+
+/*.dropzone_active {*/
+/*  height: 30px;*/
+/*  background: rgba(0, 0, 0, 0.25);*/
+/*}*/
+
 
 </style>
