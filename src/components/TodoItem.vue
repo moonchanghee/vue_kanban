@@ -1,13 +1,13 @@
 <template>
-  <div class = "todoItem"  draggable="true">
+  <div class = "todoItem"  draggable="true" id = "{{item.id}}">
     <div class = "item_content">
       <p>제목 : {{item.todoTitle}} </p>
       <p>생성일 :{{item.todoDate}} </p>
       <p>내용 : {{item.todoContents}}</p>
     </div>
     <div class="item_button">
-      <button @click = "deleteBtn" >삭제</button>
-      <button @click = "updateBtn" >수정</button>
+      <button @click = "onDeleteBtn" >삭제</button>
+      <button @click = "onUpdateBtn" >수정</button>
       <p class = "priority"> {{item.todoPriority}}</p>
     </div>
   </div>
@@ -19,10 +19,10 @@ export default {
     item : Object,
   },
   methods : {
-    deleteBtn(){
+    onDeleteBtn(){
       this.$store.dispatch(Constant.DELETE_ITEM, this.item.id)
     },
-    updateBtn(){
+    onUpdateBtn(){
       this.$store.dispatch(Constant.UPDATE_OPEN_MODAL, this.item)
     }
   }
