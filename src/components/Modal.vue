@@ -16,7 +16,7 @@
       <option :value="list" v-for="list in stateOptions">{{ list.text }}</option>
     </select>
       <br/>
-      <br/>
+      <br/>다
       <textarea cols="45" rows="10" v-model = "todoContents"></textarea>
       <div v-if="this.$store.state.updateTodo === ''" class="closeBtn"  @click="onClickButton('addItem',uuid())">작성완료</div>
       <div v-else @click="onClickButton('updateItem',this.$store.state.updateTodo.id)">수정완료</div>
@@ -24,7 +24,6 @@
   </div>
 </template>
 <script>
-import Constant from "../constant";
 
 export default {
   data() {
@@ -73,7 +72,7 @@ export default {
         return v.toString(16);
       });
     },
-    onClickButton(e,id){
+    onClickButton(eventName,id){
       let payload = {
         id: id,
         todoTitle: this.todoTitle,
@@ -87,7 +86,7 @@ export default {
         alert(this.checkData())
       }
       else{
-        this.$store.dispatch(e, payload)
+        this.$store.dispatch(eventName, payload)
         this.todoTitle= ""
         this.todoDate = ""
         this.todoContents = ""
