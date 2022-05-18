@@ -27,15 +27,15 @@ export default createStore({
             s.modalState = true
             s.updateTodo = payload
         },
-        onDrop : function(s , payload){
-            payload.event.preventDefault()
-            let selectItem = s.todo.find((e) => e.id === s.startId)
-            let deleteId = s.todo.findIndex((e) => e.id === s.startId)
-            s.todo.splice(deleteId , 1)
-            let move = s.todo.findIndex((d) => d.id === payload.event.path[1].id)
-            selectItem.todoState = payload.todoState
-            s.todo.splice(move+1 , 0, selectItem)
-        },
+        // onDrop : function(s , payload){
+        //     //드롭된 아이템의 순서를 바꾸다
+        //     let selectItem = s.todo.find((e) => e.id === s.startId)
+        //     let deleteId = s.todo.findIndex((e) => e.id === s.startId)
+        //     s.todo.splice(deleteId , 1)
+        //     let move = s.todo.findIndex((d) => d.id === payload.event.path[1].id)
+        //     selectItem.todoState = payload.todoState시
+        //     s.todo.splice(move+1 , 0, selectItem)
+        // },
         sortTodoList(s,payload){
             if(payload === "높은순"){
                 s.todo.sort((a,b) => {
