@@ -4,10 +4,9 @@
       <div class="ToDo"
            @drop = "onDrop($event)"
            @dragover = "onDragover($event)"
-           @dragleave  = "onDragleave($event)"
       >
         <div class = "item item-todo">ToDo</div>
-        <div class="ToDo" v-for = "item in this.$store.state.todo">
+        <div class="ToDo" v-for = "item in todo">
           <div v-if = "item.todoState === 'ToDo'" v-bind:id = "item.id" v-bind:class = "item.todoState" >
             <TodoItem
                 :item = "item"
@@ -19,10 +18,9 @@
       <div class="In_progress"
            @drop = "onDrop($event)"
            @dragover = "onDragover($event)"
-           @dragleave  = "onDragleave($event)"
       >
         <div class = "item item-inprogress">In Progress</div>
-        <div v-for = "item in this.$store.state.todo">
+        <div v-for = "item in todo">
           <div v-if = "item.todoState === 'In_progress'" v-bind:id = "item.id" v-bind:class = "item.todoState" >
             <TodoItem
                 :item = "item"
@@ -34,10 +32,9 @@
       <div class="Done"
            @drop = "onDrop($event)"
            @dragover = "onDragover($event)"
-           @dragleave  = "onDragleave($event)"
       >
         <div class = "item item-done">Done</div>
-        <div class="Done" v-for = "item in this.$store.state.todo">
+        <div class="Done" v-for = "item in todo">
           <div v-if = "item.todoState === 'Done'" v-bind:id = "item.id" v-bind:class = "item.todoState" >
             <TodoItem
                 :item = "item"
@@ -58,46 +55,46 @@ import Constant from "../constant";
 
 export default {
   name : "kanban",
+
+  data() {
+    return{
+      todo : this.$store.state.todo,
+      startId : ""
+    }
+  },
   components : {
     TodoItem,
     DropZone
   },
+  computed: {
+    todo: {
+      get() {
+        return this.$store.state.todo
+      },
+    }},
   methods : {
     onStartDrag (id) {
-      this.$store.state.startId = id
-      console.log("start")
+      this.startId = id
     },
 
-    //캐싱 수정
     onDrop(e){
       e.preventDefault()
-      console.log("eeee", e.path[2].getAttribute("class"))
-      // console.log("eeee", e.path[2].getAttribute("class"))
-
+      let selectItem = this.todo.find((e) => e.id === this.startId)
+      let deleteId = this.todo.findIndex((e) => e.id === this.startId)
+      this.todo.splice(deleteId , 1)
+      let move = this.todo.findIndex((d) => d.id === e.path[1].id)
       if(e.path[2].getAttribute("class") === "content"){
-        console.log(e.path[2])
-        console.log(e.path[1].getAttribute("class"))
+        selectItem.todoState = e.path[1].getAttribute("class")
+      }else{
+        console.log(e.path[2].getAttribute("class"))
+        selectItem.todoState = e.path[2].getAttribute("class")
       }
-      let payload = {
-        event : e,
-        todoState : e.path[2].getAttribute("class")
-      }
-      this.$store.dispatch(Constant.ON_DROP, payload)
+      this.todo.splice(move+1 , 0, selectItem)
       e.target.classList.remove("dropzone_active")
     },
-
-
-
-
     onDragover(e){
       e.preventDefault()
-      // console.log("dragover" ,e)
-      // e.target.classList.add("dropzone_active")
     },
-    onDragleave(e){
-      console.log("dragleave" ,e)
-      // e.target.classList.remove("dropzone_active")
-    }
   }
 }
 
