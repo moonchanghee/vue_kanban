@@ -13,12 +13,18 @@
 </template>
 
 <script>
-//캐싱 수정 , this
 import Constant from "../constant";
 export default {
   props : {
     selectOption : ''
   },
+
+  computed: {
+    modalState: {
+      get() {
+        return this.$store.state.modalState
+      }
+    }},
   methods : {
     onChangeSelect(){
       this.$store.dispatch(Constant.SORT_TODOLIST, this.selectOption)

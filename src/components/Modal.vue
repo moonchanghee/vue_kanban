@@ -1,5 +1,5 @@
 <template>
-  <div class="modal hidden"  v-if = "this.$store.state.modalState">
+  <div class="modal hidden"  v-if = "modalState">
     <div>
       <label for="title" >제목:</label>
       <input v-model = "todoTitle">
@@ -16,10 +16,10 @@
       <option :value="list" v-for="list in stateOptions">{{ list.text }}</option>
     </select>
       <br/>
-      <br/>다
+      <br/>
       <textarea cols="45" rows="10" v-model = "todoContents"></textarea>
-      <div v-if="this.$store.state.updateTodo === ''" class="closeBtn"  @click="onClickButton('addItem',uuid())">작성완료</div>
-      <div v-else @click="onClickButton('updateItem',this.$store.state.updateTodo.id)">수정완료</div>
+      <div v-if="updateTodo === ''" class="closeBtn"  @click="onClickButton('addItem', uuid())">작성완료</div>
+      <div v-else @click="onClickButton('updateItem', updateTodo.id)">수정완료</div>
     </div>
   </div>
 </template>
@@ -47,55 +47,67 @@ export default {
       ],
     }
   },
-  methods: {
-    checkData(){
-      let reg = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/;
-      if (reg.test(this.todoTitle)) {
-        return "제목에는 특수문자를 사용할 수 없습니다"
-      }else if (reg.test(this.todoContents)) {
-        return "내용에는 특수문자를 사용할 수 없습니다"
-      } else if (this.todoTitle.length > 30) {
-        return "제목은 30자를 초과할 수 없습니다"
-      }else if (this.todoContents.length > 150) {
-        return "내용은 150자를 초과할 수 없습니다"
-      }else if (this.prioritySelected === "") {
-        return "우선순위를 선택해주세요"
-      } else if (this.stateSelected === "") {
-        return "상태를 선택해주세요"
-      } else{
-        return 0
+  computed: {
+    modalState: {
+      get() {
+        return this.$store.state.modalState
       }
     },
-    uuid : function(){
-      return 'xx'.replace(/[xy]/g, function(c) {
-        let r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-      });
-    },
-    onClickButton(eventName,id){
-      let payload = {
-        id: id,
-        todoTitle: this.todoTitle,
-        todoDate: this.todoDate,
-        todoPriority: this.prioritySelected.text,
-        todoContents: this.todoContents,
-        todoState: this.stateSelected.value,
-        todoPriorityNum: this.prioritySelected.value,
+    updateTodo: {
+      get() {
+        return this.$store.state.updateTodo
       }
-      if(this.checkData()){
-        alert(this.checkData())
-      }
-      else{
-        this.$store.dispatch(eventName, payload)
-        this.todoTitle= ""
-        this.todoDate = ""
-        this.todoContents = ""
-        this.stateSelected= ""
-        this.prioritySelected= ""
+    }
+  },
+
+    methods: {
+      checkData() {
+        let reg = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/;
+        if (reg.test(this.todoTitle)) {
+          return "제목에는 특수문자를 사용할 수 없습니다"
+        } else if (reg.test(this.todoContents)) {
+          return "내용에는 특수문자를 사용할 수 없습니다"
+        } else if (this.todoTitle.length > 30) {
+          return "제목은 30자를 초과할 수 없습니다"
+        } else if (this.todoContents.length > 150) {
+          return "내용은 150자를 초과할 수 없습니다"
+        } else if (this.prioritySelected === "") {
+          return "우선순위를 선택해주세요"
+        } else if (this.stateSelected === "") {
+          return "상태를 선택해주세요"
+        } else {
+          return 0
+        }
+      },
+      uuid() {
+        return 'xx'.replace(/[xy]/g, function (c) {
+          let r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+          return v.toString(16);
+        });
+      },
+      onClickButton(eventName, id) {
+        let payload = {
+          id: id,
+          todoTitle: this.todoTitle,
+          todoDate: this.todoDate,
+          todoPriority: this.prioritySelected.text,
+          todoContents: this.todoContents,
+          todoState: this.stateSelected.value,
+          todoPriorityNum: this.prioritySelected.value,
+        }
+        if (this.checkData()) {
+          alert(this.checkData())
+        } else {
+          this.$store.dispatch(eventName, payload)
+          this.todoTitle = ""
+          this.todoDate = ""
+          this.todoContents = ""
+          this.stateSelected = ""
+          this.prioritySelected = ""
       }
     }
   }
-};
+}
 </script>
 
 <style>
